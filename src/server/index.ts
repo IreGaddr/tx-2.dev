@@ -321,7 +321,7 @@ world.start();`
   return world;
 }
 
-const server = createServer(async (req, res) => {
+export const requestHandler = async (req: any, res: any) => {
   const url = req.url || '/';
   const parsed = new URL(url, 'http://localhost');
   const path = parsed.pathname;
@@ -405,8 +405,13 @@ const server = createServer(async (req, res) => {
 
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.end(html);
-});
+};
 
-server.listen(PORT, () => {
-  console.log(`TX-2 website running at http://localhost:${PORT}`);
-});
+// Only start the server if this file is being run directly
+import { fileURLToPath } from 'url';
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const server = createServer(requestHandler);
+  server.listen(PORT, () => {
+    console.log(`TX-2 website running at http://localhost:${PORT}`);
+  });
+}
