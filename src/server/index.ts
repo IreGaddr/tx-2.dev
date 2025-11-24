@@ -50,6 +50,7 @@ function createWorld(currentPath: string): World {
           ),
           h('div', { class: 'nav-links' },
             h('a', { href: '/', class: isActive('/') ? 'active' : undefined }, 'Home'),
+            h('a', { href: '/manifesto', class: isActive('/manifesto') ? 'active' : undefined }, 'Manifesto'),
             h('a', { href: '/#docs-content' }, 'Docs'),
             h('a', { href: '/#examples' }, 'Examples'),
             h('a', { href: 'https://github.com/IreGaddr/tx2-ecs' }, 'GitHub')
@@ -57,39 +58,122 @@ function createWorld(currentPath: string): World {
         )
       ),
       h('main', null,
-        h('section', { class: 'hero', id: 'hero' },
-          h('div', { class: 'hero-grid' },
-            h('div', null,
-              h('div', { class: 'tagline' }, 'Sketchpad → TX-2 → Web'),
-              h('h1', null, 'WEB ARCHITECTURE, CORRECTED.'),
-              h('p', null, 'In 1963, Ivan Sutherland drew on a phosphor display with the TX-2 light pen and built the first interactive ECS. TX-2 brings that architecture to the modern web: isomorphic logic, zero bloat, precise control.'),
-              h('div', { class: 'cta-row' },
-                h('a', { href: '#docs', class: 'btn primary' }, 'Get Started'),
-                h('a', { href: 'https://www.npmjs.com/package/tx2-ecs', class: 'btn ghost' }, 'npm install tx2-ecs'),
-                h('a', { href: 'https://github.com/IreGaddr/tx2-ecs', class: 'btn ghost' }, 'View Source')
-              )
+        isActive('/manifesto') ? h('div', { class: 'manifesto-container', style: 'max-width: 800px; margin: 0 auto; padding: 2rem 1rem;' },
+          h('section', { class: 'hud' },
+            h('div', { class: 'corners' }),
+            h('div', { class: 'label' }, 'MANIFESTO // 2025'),
+            h('h1', { style: 'font-size: 2.5rem; line-height: 1.1; margin-bottom: 1.5rem; font-family: var(--font-display);' }, 'Real‑Time Web Without the Hangover: Why TX‑2 ECS Changes Everything'),
+
+            h('p', { style: 'font-size: 1.1rem; line-height: 1.6; color: var(--color-text-dim); margin-bottom: 1rem;' },
+              'Every few years, the web development world rediscovers the same dream: ',
+              h('em', null, 'what if building real‑time, multiplayer, stateful apps didn’t feel like wrestling a pile of ad‑hoc patches?')
             ),
-            h('div', { class: 'hud' },
+            h('p', { style: 'font-size: 1.1rem; line-height: 1.6; color: var(--color-text-dim); margin-bottom: 1rem;' },
+              'We bolt WebSockets onto REST. We sprinkle in a state library or two. We invent yet another RPC layer. It all sort of works—until the app is big, the team is bigger, and any change risks a regression in some forgotten corner.'
+            ),
+            h('p', { style: 'font-size: 1.1rem; line-height: 1.6; color: var(--color-text-dim); margin-bottom: 2rem;' },
+              h('strong', null, 'TX‑2 ECS'), ' starts from a different premise. Instead of treating state management, rendering, networking, and real‑time sync as separate problems, it adopts the architecture game engines have been refining for years: an ',
+              h('strong', null, 'Entity–Component–System (ECS)'), ' core, wired directly into a web‑native runtime.'
+            ),
+
+            h('hr', { style: 'border: 0; border-top: 1px solid var(--color-border); margin: 2rem 0;' }),
+
+            h('h2', { style: 'font-size: 1.8rem; margin-bottom: 1rem; color: var(--color-primary);' }, 'The Architecture: One World, Two Contexts'),
+            h('p', { style: 'margin-bottom: 1rem;' }, 'The typical modern web stack is built on a quiet lie: the idea that it’s fine to have one shape of state on the server (SQL), another in your client store (Redux/Zustand), and a third in your UI (DOM), as long as you have enough glue code in between.'),
+            h('p', { style: 'margin-bottom: 1rem; font-weight: bold;' }, 'TX‑2 rejects that. The ECS world is the state model.'),
+            h('ul', { style: 'margin-bottom: 1rem; padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;' },
+              h('li', null, h('strong', null, 'Server:'), ' You have a world of entities, components, and systems that implement core domain logic.'),
+              h('li', null, h('strong', null, 'SSR:'), ' That world is serialized—snapshots, state, and all—into HTML.'),
+              h('li', null, h('strong', null, 'Client:'), ' The browser "hydrates" that exact same world, waking up the entities and systems without missing a frame.')
+            ),
+            h('p', { style: 'margin-bottom: 2rem;' }, 'Renderers are not special; they are just systems that read components and produce DOM. Networking is not special; it’s a system that serializes changes and applies deltas. There is no second store hiding behind your view layer.'),
+
+            h('hr', { style: 'border: 0; border-top: 1px solid var(--color-border); margin: 2rem 0;' }),
+
+            h('h2', { style: 'font-size: 1.8rem; margin-bottom: 1rem; color: var(--color-primary);' }, 'Composability That Survives Five Years of Feature Requests'),
+            h('p', { style: 'margin-bottom: 1rem;' }, 'Every experienced engineer knows that the hardest part of software is not getting version one out the door. It’s version twenty‑seven, after marketing, product, and three reorgs have left their fingerprints everywhere.'),
+            h('blockquote', { style: 'border-left: 3px solid var(--color-primary); padding-left: 1rem; margin: 1.5rem 0; font-style: italic; color: var(--color-text-dim);' },
+              '“Can we make premium users’ avatars have a gold outline? Oh, and it should also glow during special events if they’re online.”'
+            ),
+            h('p', { style: 'margin-bottom: 1rem;' }, 'In a typical OOP‑heavy or component-tree stack, this involves a trail of compromises. You extend a base Avatar component, add a boolean flag, thread isPremium through six layers, duplicate CSS, and hope you didn\'t break the admin dashboard.'),
+            h('p', { style: 'margin-bottom: 1rem;' }, 'In ', h('strong', null, 'TX‑2'), ', this request is dull in the best possible way.'),
+            h('ul', { style: 'margin-bottom: 1rem; padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;' },
+              h('li', null, h('strong', null, 'Premium'), ' is a component.'),
+              h('li', null, h('strong', null, 'Online'), ' is a component.'),
+              h('li', null, h('strong', null, 'VisualState'), ' is a component.')
+            ),
+            h('p', { style: 'margin-bottom: 2rem;' }, 'To implement the feature, you write a small system: ', h('code', null, 'AvatarGlowSystem'), '. It queries for entities with ', h('code', null, '[Avatar, Premium, Online]'), ' and updates the style. The rest of the codebase doesn’t know or care. You don’t perform surgery on old code; you simply ', h('strong', null, 'compose'), ' a new behavior.'),
+
+            h('hr', { style: 'border: 0; border-top: 1px solid var(--color-border); margin: 2rem 0;' }),
+
+            h('h2', { style: 'font-size: 1.8rem; margin-bottom: 1rem; color: var(--color-primary);' }, 'Real‑Time Sync That Doesn’t Bleed Your Budget'),
+            h('p', { style: 'margin-bottom: 1rem;' }, 'If you’ve ever run a popular real‑time app, you know the dirty secret: ', h('strong', null, 'it’s expensive.'), ' Egress, CPU, and memory add up.'),
+            h('p', { style: 'margin-bottom: 1rem;' }, 'Most stacks start by sending full JSON snapshots over WebSockets. TX‑2 is opinionated about making sure you don’t stay there. Because the framework understands exactly which component fields have changed, it ships ', h('strong', null, 'Deltas'), ', not snapshots.'),
+            h('ul', { style: 'margin-bottom: 2rem; padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;' },
+              h('li', null, h('strong', null, 'Naive Approach:'), ' Sending a 4KB user state snapshot @ 20 ticks/sec = ', h('strong', null, '80KB/sec per user.')),
+              h('li', null, h('strong', null, 'TX-2 Approach:'), ' Sending a 200-byte delta (only what changed) @ 20 ticks/sec = ', h('strong', null, '4KB/sec per user.')),
+              h('li', { style: 'margin-top: 0.5rem; color: var(--color-primary);' }, 'That is a 20x reduction in bandwidth.')
+            ),
+
+            h('hr', { style: 'border: 0; border-top: 1px solid var(--color-border); margin: 2rem 0;' }),
+
+            h('h2', { style: 'font-size: 1.8rem; margin-bottom: 1rem; color: var(--color-primary);' }, 'Security That Isn\'t an Afterthought'),
+            h('p', { style: 'margin-bottom: 1rem;' }, 'In most real-time frameworks, security is the tax you pay at the end of the project. You manually sanitize inputs, patch prototype pollution holes, and wrap every WebSocket handler in try/catch blocks.'),
+            h('p', { style: 'margin-bottom: 1rem;' }, 'In TX-2, security is the pavement you walk on.'),
+            h('ul', { style: 'margin-bottom: 2rem; padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;' },
+              h('li', null, h('strong', null, 'XSS Neutralized:'), ' The Server-Side Renderer (SSR) automatically sanitizes attributes and strips dangerous event handlers before HTML ever hits the client.'),
+              h('li', null, h('strong', null, 'No Prototype Pollution:'), ' The state deserializer explicitly blocks dangerous keys (__proto__, constructor), closing the most common vector for attacking state synchronization.'),
+              h('li', null, h('strong', null, 'Gated RPCs:'), ' The Remote Procedure Call system includes declarative Rate Limiting and Authorization checks.')
+            ),
+
+            h('hr', { style: 'border: 0; border-top: 1px solid var(--color-border); margin: 2rem 0;' }),
+
+            h('h2', { style: 'font-size: 1.8rem; margin-bottom: 1rem; color: var(--color-primary);' }, 'Developer Experience That Ages Well'),
+            h('p', { style: 'margin-bottom: 2rem;' }, 'The true test of a framework is not how pleasant it feels in the honeymoon phase. It’s how it behaves when the codebase has grown and the team has rotated. Onboarding new developers to TX-2 is radically simpler. The boundaries are clear because the architecture forces them to be.'),
+
+            h('div', { class: 'hud', style: 'margin-top: 3rem;' },
               h('div', { class: 'corners' }),
-              h('div', { class: 'label' }, 'LIVE SYSTEM // ECS'),
-              h('div', { class: 'grid-two' },
-                h('div', { class: 'stat' },
-                  h('span', { class: 'label' }, 'HYDRATION'),
-                  h('span', { class: 'value', id: 'hud-hydration' }, 'Ready')
-                ),
-                h('div', { class: 'stat' },
-                  h('span', { class: 'label' }, 'TICK / FPS'),
-                  h('span', { class: 'value', id: 'hud-fps' }, '—')
-                )
-              ),
-              h('div', { class: 'widget', id: 'hud-widget' },
-                h('span', null, 'Signal Demo: awaiting hydration...')
-              )
+              h('h3', { style: 'font-size: 1.4rem; margin-bottom: 1rem;' }, 'Web Architecture, Corrected.'),
+              h('p', { style: 'margin-bottom: 1rem;' }, 'TX‑2 ECS is not a silver bullet. But if you are building applications that look like living systems—multiplayer tools, simulations, real‑time dashboards, collaborative editors—the traditional web stack makes you pay a tax in complexity.'),
+              h('p', { style: 'margin-bottom: 1.5rem;' }, 'By centering an ECS world, unifying state across server and client, and baking in efficient sync, TX‑2 offers an alternative. It treats your application like a world, not a collection of disconnected widgets.'),
+              h('div', { class: 'code', style: 'text-align: center; padding: 1rem;' }, 'npm install tx2-ecs')
             )
           )
-        ),
+        )
+          :
+          h('section', { class: 'hero', id: 'hero' },
+            h('div', { class: 'hero-grid' },
+              h('div', null,
+                h('div', { class: 'tagline' }, 'Sketchpad → TX-2 → Web'),
+                h('h1', null, 'WEB ARCHITECTURE, CORRECTED.'),
+                h('p', null, 'In 1963, Ivan Sutherland drew on a phosphor display with the TX-2 light pen and built the first interactive ECS. TX-2 brings that architecture to the modern web: isomorphic logic, zero bloat, precise control.'),
+                h('div', { class: 'cta-row' },
+                  h('a', { href: '#docs', class: 'btn primary' }, 'Get Started'),
+                  h('a', { href: 'https://www.npmjs.com/package/tx2-ecs', class: 'btn ghost' }, 'npm install tx2-ecs'),
+                  h('a', { href: 'https://github.com/IreGaddr/tx2-ecs', class: 'btn ghost' }, 'View Source')
+                )
+              ),
+              h('div', { class: 'hud' },
+                h('div', { class: 'corners' }),
+                h('div', { class: 'label' }, 'LIVE SYSTEM // ECS'),
+                h('div', { class: 'grid-two' },
+                  h('div', { class: 'stat' },
+                    h('span', { class: 'label' }, 'HYDRATION'),
+                    h('span', { class: 'value', id: 'hud-hydration' }, 'Ready')
+                  ),
+                  h('div', { class: 'stat' },
+                    h('span', { class: 'label' }, 'TICK / FPS'),
+                    h('span', { class: 'value', id: 'hud-fps' }, '—')
+                  )
+                ),
+                h('div', { class: 'widget', id: 'hud-widget' },
+                  h('span', null, 'Signal Demo: awaiting hydration...')
+                )
+              )
+            )
+          ),
 
-        h('section', { class: 'hud', id: 'why' },
+        !isActive('/manifesto') ? h('section', { class: 'hud', id: 'why' },
           h('div', { class: 'corners' }),
           h('div', { class: 'label' }, 'WHY TX-2'),
           h('div', { class: 'feature-grid' },
@@ -118,9 +202,9 @@ function createWorld(currentPath: string): World {
               h('p', null, 'ESM-first, tree-shakeable modules. No framework runtime tax.')
             )
           )
-        ),
+        ) : null,
 
-        h('section', { class: 'grid-two', id: 'docs' },
+        !isActive('/manifesto') ? h('section', { class: 'grid-two', id: 'docs' },
           h('div', { class: 'hud' },
             h('div', { class: 'corners' }),
             h('div', { class: 'label' }, 'QUICK START'),
@@ -187,9 +271,9 @@ world.start();`
               )
             )
           )
-        ),
+        ) : null,
 
-        h('section', { class: 'hud', id: 'docs-content' },
+        !isActive('/manifesto') ? h('section', { class: 'hud', id: 'docs-content' },
           h('div', { class: 'corners' }),
           h('div', { class: 'label' }, 'DOCS // OVERVIEW'),
           h('div', { class: 'docs-grid' },
@@ -226,9 +310,9 @@ world.start();`
               )
             )
           )
-        ),
+        ) : null,
 
-        h('section', { class: 'grid-two', id: 'docs-deepdive' },
+        !isActive('/manifesto') ? h('section', { class: 'grid-two', id: 'docs-deepdive' },
           h('div', { class: 'hud' },
             h('div', { class: 'corners' }),
             h('div', { class: 'label' }, 'DOCS // CORE'),
@@ -287,9 +371,9 @@ world.start();`
               )
             )
           )
-        ),
+        ) : null,
 
-        h('section', { class: 'hud', id: 'examples' },
+        !isActive('/manifesto') ? h('section', { class: 'hud', id: 'examples' },
           h('div', { class: 'corners' }),
           h('div', { class: 'label' }, 'EXAMPLES'),
           h('div', { class: 'feature-grid' },
@@ -309,7 +393,7 @@ world.start();`
               h('a', { href: '#hud-widget', class: 'btn ghost', style: 'margin-top:0.75rem; display:inline-flex;' }, 'Run Demo')
             )
           )
-        )
+        ) : null
       ),
       h('footer', null,
         h('span', null, '© 2025 TX-2 // Built with tx2-ecs'),
@@ -353,7 +437,7 @@ export const requestHandler = async (req: any, res: any) => {
     }
   }
 
-  const allowedPaths = new Set(['/', '/docs', '/examples']);
+  const allowedPaths = new Set(['/', '/docs', '/examples', '/manifesto']);
   if (!allowedPaths.has(path)) {
     res.writeHead(404, { 'Content-Type': 'text/html' });
     res.end(`
