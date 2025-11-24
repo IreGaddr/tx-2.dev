@@ -1,0 +1,30 @@
+{
+  "name": "tx2ecswebsite",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/server/index.js",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "start": "node dist/server/index.js",
+    "dev": "npm run build && npm start",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.client.json --noEmit && tsc -p tsconfig.server.json --noEmit"
+  },
+  "keywords": [
+    "tx2-ecs",
+    "website",
+    "documentation",
+    "ecs",
+    "entity-component-system"
+  ],
+  "author": "",
+  "license": "MIT",
+  "description": "Official website and documentation for TX-2 Entity Component System",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "esbuild": "^0.27.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "tx2-ecs": "^0.1.7"
+  }
+}

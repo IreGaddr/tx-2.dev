@@ -1,0 +1,117 @@
+We aren't building a "soft" SaaS landing page with gradients and rounded corners. We are building a technical manual for a weapon system.
+
+Here is a breakdown of the Visual Theme & Styling Strategy for tx-2.dev, leaning into the "TX-2 / Sutherland / F-22" vibe.
+
+1. The Core Aesthetic: "Phosphor & Void"
+Concept: The original MIT TX-2 computer used vector displays with glowing green phosphor on pitch-black screens. We modernize this.
+
+Background: #050505 (Almost pure black, "Void").
+
+Primary Accent: #00FF41 (The classic "Terminal Green") or a slightly more modern #39FF14 (Neon Green).
+
+Secondary Accent: #FF3333 (Alert Red - for the "Thundering Herd" warnings).
+
+Text: #E0E0E0 (Off-white, high contrast but not eye-bleeding).
+
+CSS Variable Idea:
+
+CSS
+
+:root {
+  --color-void: #09090b; /* Zinc-950 */
+  --color-phosphor: #4ade80; /* Green-400 */
+  --color-grid: #27272a; /* Zinc-800 */
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Space Grotesk', sans-serif;
+}
+2. Typography: "The Engineering Manual"
+The font choice is critical. It needs to feel like a blueprint.
+
+Headings (H1-H3): Space Grotesk or Chakra Petch. Something blocky, wide, and technical.
+
+Body Text: Inter or Geist Sans (Vercel's font). Clean, readable, neutral.
+
+Code Blocks: JetBrains Mono or Fira Code. Ligatures are mandatory.
+
+3. UI Elements: "The HUD"
+Avoid "cards" with drop shadows. Use Outlines and Grids.
+
+Grid Lines: Use a subtle background grid pattern (like a CAD drawing or radar screen) that fades in and out.
+
+Borders: 1px solid borders with sharp corners (border-radius: 0px or 2px). No 16px rounded corners.
+
+Active States: When you hover a button, don't just change color. Invert it (Black text on Green bg). Or add "corner brackets" that appear.
+
+The "HUD" Component Idea:
+
+Getty Images
+
+TypeScript
+
+// A React component for a section container
+const HUDContainer = ({ children, title }) => (
+  <div className="relative border border-zinc-800 bg-zinc-950 p-6">
+    {/* Corner accents */}
+    <div className="absolute -top-1 -left-1 w-2 h-2 border-t-2 border-l-2 border-green-500" />
+    <div className="absolute -top-1 -right-1 w-2 h-2 border-t-2 border-r-2 border-green-500" />
+    <div className="absolute -bottom-1 -left-1 w-2 h-2 border-b-2 border-l-2 border-green-500" />
+    <div className="absolute -bottom-1 -right-1 w-2 h-2 border-b-2 border-r-2 border-green-500" />
+    
+    {/* Technical Label */}
+    <div className="absolute -top-3 left-4 bg-zinc-950 px-2 text-xs font-mono text-green-500 tracking-widest">
+      {title.toUpperCase()} // SYS.01
+    </div>
+    
+    {children}
+  </div>
+);
+4. The Hero Section (The "Hook")
+Since you have the "Vibe Coding" angle, the hero shouldn't just be text. It should be Alive.
+
+Left Side: The Tagline.
+
+H1: "WEB ARCHITECTURE, CORRECTED."
+
+Sub: "The TX-2 Framework brings Ivan Sutherland’s ECS pattern to the modern browser. 60fps logic. 0ms bloat."
+
+Right Side: A live WebGL/Canvas simulation running TX-2.
+
+What it shows: 10,000 particles swarming (Boids algorithm).
+
+The Flex: A live FPS counter in the corner staying pinned at 60.
+
+Interaction: When the user moves their mouse, the swarm reacts instantly (demonstrating the InputSystem).
+
+5. Content Layout (The "Documentation")
+Since this is a framework, the docs need to be pristine.
+
+Sidebar: Fixed left. High density.
+
+Right Column: "On this page" table of contents.
+
+Code Snippets: The most important part.
+
+Use Shiki or Prism for syntax highlighting.
+
+Theme: Github Dark Dimmed or a custom "Phosphor" theme.
+
+Feature: "Copy" button that says COPIED in green text.
+
+6. Easter Eggs (The "Sutherland" Touch)
+The Logo: A stylized vector line drawing of the "Light Pen" from the Sketchpad demo.
+
+The 404 Page: A "System Crash" screen that looks like a kernel panic or a retro boot failure log.
+
+Console Message: When a dev opens the console on your site:
+
+JavaScript
+
+console.log("%c TX-2 SYSTEM ONLINE ", "background: #00FF41; color: #000; padding: 4px; font-weight: bold;");
+Recommended Stack for the Site:
+Astro: (Perfect for docs, basically 0kb JS by default).
+
+Starlight: (The best docs theme for Astro right now. Easy to customize).
+
+Tailwind CSS: (For the styling).
+
+The Vibe Check: Think "Linear" meets "Metal Gear Solid" meets "NASA Control Room." Serious. Precise. Fast.
