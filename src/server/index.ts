@@ -51,7 +51,7 @@ function createWorld(currentPath: string): World {
           h('div', { class: 'nav-links' },
             h('a', { href: '/', class: isActive('/') ? 'active' : undefined }, 'Home'),
             h('a', { href: '/manifesto', class: isActive('/manifesto') ? 'active' : undefined }, 'Manifesto'),
-            h('a', { href: '/#docs-content' }, 'Docs'),
+            h('a', { href: '/#stack' }, 'Stack'),
             h('a', { href: '/#examples' }, 'Examples'),
             h('a', { href: 'https://github.com/IreGaddr/tx2-ecs' }, 'GitHub')
           )
@@ -144,12 +144,11 @@ function createWorld(currentPath: string): World {
           h('section', { class: 'hero', id: 'hero' },
             h('div', { class: 'hero-grid' },
               h('div', null,
-                h('div', { class: 'tagline' }, 'Sketchpad → TX-2 → Web'),
-                h('h1', null, 'WEB ARCHITECTURE, CORRECTED.'),
-                h('p', null, 'In 1963, Ivan Sutherland drew on a phosphor display with the TX-2 light pen and built the first interactive ECS. TX-2 brings that architecture to the modern web: isomorphic logic, zero bloat, precise control.'),
+                h('div', { class: 'tagline' }, 'One world, many views.'),
+                h('h1', null, 'BUILD ONCE, RUN EVERYWHERE.'),
+                h('p', null, 'TX-2 is a complete ecosystem for building applications where the same Entity-Component-System world runs everywhere - web, native, CLI - with automatic synchronization, persistence, and time-travel debugging.'),
                 h('div', { class: 'cta-row' },
-                  h('a', { href: '#docs', class: 'btn primary' }, 'Get Started'),
-                  h('a', { href: 'https://www.npmjs.com/package/tx2-ecs', class: 'btn ghost' }, 'npm install tx2-ecs'),
+                  h('a', { href: '#stack', class: 'btn primary' }, 'Explore the Stack'),
                   h('a', { href: 'https://github.com/IreGaddr/tx2-ecs', class: 'btn ghost' }, 'View Source')
                 )
               ),
@@ -178,197 +177,107 @@ function createWorld(currentPath: string): World {
           h('div', { class: 'label' }, 'WHY TX-2'),
           h('div', { class: 'feature-grid' },
             h('div', { class: 'feature-card' },
-              h('h3', null, 'Fullstack ECS'),
-              h('p', null, 'Define components once. The same systems run on server and client with deterministic state and hydration.')
+              h('h3', null, 'World-First Design'),
+              h('p', null, 'The ECS world is the source of truth. Everything else (databases, files, UI state) is derived. No ORM, no separate state, no impedance mismatch.')
             ),
             h('div', { class: 'feature-card' },
-              h('h3', null, 'Reactive Core'),
-              h('p', null, 'Signals, computed values, and effects without VDOM drift. Minimal allocations, maximal control.')
+              h('h3', null, 'Isomorphic State'),
+              h('p', null, 'The same component definitions work in Rust and TypeScript. tx2-link handles the synchronization.')
             ),
             h('div', { class: 'feature-card' },
-              h('h3', null, 'SSR + Sync'),
-              h('p', null, 'Server-side rendering with hydration markers plus delta-compressed state synchronization.')
+              h('h3', null, 'Pure ECS'),
+              h('p', null, 'Components are data, systems are logic, strictly separated. No component methods, no inheritance, no hidden state.')
             ),
             h('div', { class: 'feature-card' },
-              h('h3', null, 'Type-Safe RPC'),
-              h('p', null, 'Define procedures with runtime guards and TypeScript inference across the wire.')
-            ),
-            h('div', { class: 'feature-card' },
-              h('h3', null, 'Performance Discipline'),
-              h('p', null, 'Query indexing, batched updates, and worker-ready schedulers for heavy scenes.')
-            ),
-            h('div', { class: 'feature-card' },
-              h('h3', null, 'Zero Bloat'),
-              h('p', null, 'ESM-first, tree-shakeable modules. No framework runtime tax.')
+              h('h3', null, 'Deterministic Simulation'),
+              h('p', null, 'Systems execute in defined order with fixed timestep. Reproducible, replayable, and testable.')
             )
           )
         ) : null,
 
-        !isActive('/manifesto') ? h('section', { class: 'grid-two', id: 'docs' },
-          h('div', { class: 'hud' },
-            h('div', { class: 'corners' }),
-            h('div', { class: 'label' }, 'QUICK START'),
-            h('div', { class: 'code' },
-              `npm install tx2-ecs
-
-import { World, defineComponent, Component } from 'tx2-ecs';
-import { h, Render } from 'tx2-ecs/client';
-
-class Counter extends Component {
-  private countSignal = this.defineReactive('count', 0);
-
-  get count() { return this.countSignal.get(); }
-  set count(value: number) { this.countSignal.set(value); }
-
-  clone() {
-    return new Counter({ count: this.countSignal.peek() }) as this;
-  }
-}
-
-const world = new World();
-const entity = world.createEntity();
-
-world.addComponent(entity.id, new Counter({ count: 0 }));
-world.addComponent(entity.id, Render.create({
-  render: () => {
-    const counter = world.getComponent<Counter>(entity.id, 'Counter')!;
-    return h('div', null,
-      h('p', null, \`Count: \${counter.count}\`),
-      h('button', {
-        onclick: () => counter.count++
-      }, 'Increment')
-    );
-  }
-}));
-
-await world.init();
-world.start();`
-            )
-          ),
-          h('div', { class: 'hud' },
-            h('div', { class: 'corners' }),
-            h('div', { class: 'label' }, 'DOCS MAP'),
-            h('div', { class: 'feature-grid' },
-              h('div', { class: 'feature-card' },
-                h('h3', null, 'Getting Started'),
-                h('p', null, 'Installation, project layout, build targets, hydration.'),
-                h('a', { href: '#docs-content', class: 'btn ghost', style: 'margin-top:0.75rem; display:inline-flex;' }, 'Read')
-              ),
-              h('div', { class: 'feature-card' },
-                h('h3', null, 'Core Concepts'),
-                h('p', null, 'World, Entity, Component, System, Signals, Scheduling.'),
-                h('a', { href: '#docs-deepdive', class: 'btn ghost', style: 'margin-top:0.75rem; display:inline-flex;' }, 'Read')
-              ),
-              h('div', { class: 'feature-card' },
-                h('h3', null, 'Client / SSR'),
-                h('p', null, 'Rendering, hydration markers, event wiring, streaming.'),
-                h('a', { href: '#docs-client', class: 'btn ghost', style: 'margin-top:0.75rem; display:inline-flex;' }, 'Read')
-              ),
-              h('div', { class: 'feature-card' },
-                h('h3', null, 'RPC & Sync'),
-                h('p', null, 'Type-safe RPC, rate limits, delta compression, auth hooks.'),
-                h('a', { href: '#docs-client', class: 'btn ghost', style: 'margin-top:0.75rem; display:inline-flex;' }, 'Read')
-              )
-            )
-          )
-        ) : null,
-
-        !isActive('/manifesto') ? h('section', { class: 'hud', id: 'docs-content' },
+        !isActive('/manifesto') ? h('section', { class: 'hud', id: 'stack' },
           h('div', { class: 'corners' }),
-          h('div', { class: 'label' }, 'DOCS // OVERVIEW'),
+          h('div', { class: 'label' }, 'THE STACK'),
+          h('div', { class: 'feature-grid' },
+            h('div', { class: 'feature-card' },
+              h('h3', null, '1. tx2-ecs (TypeScript/Node)'),
+              h('p', null, 'The web runtime with reactive rendering, SSR, DOM rendering, and network sync with delta compression.'),
+              h('a', { href: 'https://github.com/IreGaddr/tx2-ecs', class: 'btn ghost', style: 'margin-top:0.75rem; display:inline-flex;' }, 'Repo')
+            ),
+            h('div', { class: 'feature-card' },
+              h('h3', null, '2. tx2-core (Rust)'),
+              h('p', null, 'The native engine for desktop/high-perf apps. Type-safe ECS, wgpu rendering, cross-platform windowing.'),
+              h('a', { href: 'https://github.com/IreGaddr/tx2-core', class: 'btn ghost', style: 'margin-top:0.75rem; display:inline-flex;' }, 'Repo')
+            ),
+            h('div', { class: 'feature-card' },
+              h('h3', null, '3. tx2-link (Rust)'),
+              h('p', null, 'Bridge protocol for syncing worlds. Field-level delta compression (1171x), rate limiting, multiple formats.'),
+              h('a', { href: 'https://github.com/IreGaddr/tx2-link', class: 'btn ghost', style: 'margin-top:0.75rem; display:inline-flex;' }, 'Repo')
+            ),
+            h('div', { class: 'feature-card' },
+              h('h3', null, '4. tx2-pack (Rust)'),
+              h('p', null, 'Binary world snapshot format for persistence and time-travel. Compression, encryption, checkpoints.'),
+              h('a', { href: 'https://github.com/IreGaddr/tx2-pack', class: 'btn ghost', style: 'margin-top:0.75rem; display:inline-flex;' }, 'Repo')
+            ),
+            h('div', { class: 'feature-card' },
+              h('h3', null, '5. tx2-query (Rust)'),
+              h('p', null, 'SQL analytics layer. One-way ECS -> SQL sync, auto schema generation, PostgreSQL/SQLite backends.'),
+              h('a', { href: 'https://github.com/IreGaddr/tx2-query', class: 'btn ghost', style: 'margin-top:0.75rem; display:inline-flex;' }, 'Repo')
+            ),
+            h('div', { class: 'feature-card' },
+              h('h3', null, '6. tx2-cli (Rust)'),
+              h('p', null, 'CLI for inspecting, debugging, and managing apps. Snapshot management, SQL analytics, TUI mode.'),
+              h('a', { href: 'https://github.com/IreGaddr/tx2-cli', class: 'btn ghost', style: 'margin-top:0.75rem; display:inline-flex;' }, 'Repo')
+            )
+          )
+        ) : null,
+
+        !isActive('/manifesto') ? h('section', { class: 'hud', id: 'architecture' },
+          h('div', { class: 'corners' }),
+          h('div', { class: 'label' }, 'HOW IT ALL FITS TOGETHER'),
           h('div', { class: 'docs-grid' },
             h('div', { class: 'docs-item' },
-              h('h4', null, 'Architecture'),
-              h('p', null, 'TX-2 is an isomorphic ECS. Define components and systems once; run them on server and client. Hydration carries state across the wire without VDOM.')
+              h('h4', null, '1. Server ↔ Browser'),
+              h('p', null, 'tx2-core (Rust server) ↔ tx2-ecs (browser). Via tx2-link over WebSocket. Delta compressed updates.')
             ),
             h('div', { class: 'docs-item' },
-              h('h4', null, 'Entities & Components'),
-              h('ul', null,
-                h('li', null, 'Entity: ID-only container.'),
-                h('li', null, 'Component: State + reactive signals via defineReactive.'),
-                h('li', null, 'Systems: Functions over queries; phases: init/update/fixedUpdate/lateUpdate/cleanup.')
-              )
+              h('h4', null, '2. Native ↔ Webview'),
+              h('p', null, 'tx2-core (Rust) ↔ tx2-ecs (embedded webview). Via tx2-link over IPC. For hybrid desktop apps.')
             ),
             h('div', { class: 'docs-item' },
-              h('h4', null, 'Reactivity'),
-              h('p', null, 'Signals are first-class. Components expose signals; systems react via effects. No VDOM diffing; direct DOM ops in render system.')
+              h('h4', null, '3. Process ↔ CLI'),
+              h('p', null, 'tx2-core (server) ↔ CLI tools. Via tx2-link over stdio pipes. For debugging and scripting.')
             ),
             h('div', { class: 'docs-item' },
-              h('h4', null, 'Rendering'),
-              h('p', null, 'Client: Render.create wraps a render() returning h() trees. Server: renderDocument(world) emits HTML + hydration markers.')
+              h('h4', null, '4. Persistence'),
+              h('p', null, 'Any runtime → tx2-pack. Save/load checkpoints. Time-travel replay.')
             ),
             h('div', { class: 'docs-item' },
-              h('h4', null, 'RPC & Sync'),
-              h('p', null, 'RPC definitions live in server; clients call with inferred types. State sync uses delta compression; only dirty signals move.')
-            ),
-            h('div', { class: 'docs-item' },
-              h('h4', null, 'Deployment'),
-              h('ul', null,
-                h('li', null, 'Bundle: npm run build (core/client/server + types).'),
-                h('li', null, 'Node SSR: import { renderDocument } from "tx2-ecs/server".'),
-                h('li', null, 'Client: include /dist/client/index.js or bundle with your app.')
-              )
+              h('h4', null, '5. Analytics'),
+              h('p', null, 'tx2-core → tx2-query → SQL databases. One-way ECS synchronization. BI tools and dashboards.')
             )
           )
         ) : null,
 
-        !isActive('/manifesto') ? h('section', { class: 'grid-two', id: 'docs-deepdive' },
-          h('div', { class: 'hud' },
-            h('div', { class: 'corners' }),
-            h('div', { class: 'label' }, 'DOCS // CORE'),
-            h('div', { class: 'code' },
-              `// Define a component
-import { Component, defineComponent } from 'tx2-ecs';
-
-class Position extends Component {
-  x = this.defineReactive('x', 0);
-  y = this.defineReactive('y', 0);
-  clone() { return new Position({ x: this.x.peek(), y: this.y.peek() }) as this; }
-}
-
-export const PositionC = defineComponent('Position', () => Position);
-
-// System
-import { defineSystem, createSystemId } from 'tx2-ecs';
-
-export const MoveSystem = defineSystem({
-  id: createSystemId('Move'),
-  name: 'Move',
-  phases: ['update'],
-}, ({ world, deltaTime }) => {
-  const entities = world.query({ all: ['Position'] });
-  for (const entity of entities) {
-    const pos = world.getComponent(entity, 'Position') as Position;
-    pos.x.set(pos.x.get() + 10 * deltaTime);
-  }
-});
-
-// Wiring
-world.addComponent(entity.id, PositionC.create({ x: 0, y: 0 }));
-world.addSystem(MoveSystem);
-world.start();`
-            )
-          ),
-          h('div', { class: 'hud' },
-            h('div', { class: 'corners' }),
-            h('div', { class: 'label' }, 'DOCS // CLIENT & SSR'),
-            h('div', { class: 'docs-grid' },
-              h('div', { class: 'docs-item' },
-                h('h4', null, 'Client Render'),
-                h('p', null, 'Use Render.create to bind a render function. h(tag, props, ...children) builds DOM nodes directly; no VDOM diff.')
-              ),
-              h('div', { class: 'docs-item' },
-                h('h4', null, 'SSR'),
-                h('p', null, 'renderDocument(world, opts) outputs HTML with hydration data. Include <script type="module" src="/dist/client/index.js">.')
-              ),
-              h('div', { class: 'docs-item' },
-                h('h4', null, 'Hydration'),
-                h('p', null, 'hydrateWorld(world, { root, clearMarkers }) attaches to server markup and restores signals.')
-              ),
-              h('div', { class: 'docs-item' },
-                h('h4', null, 'State Sync (server-driven)'),
-                h('p', null, 'Track dirty signals; ship deltas. RPC hooks can push state; clients patch into components.')
-              )
+        !isActive('/manifesto') ? h('section', { class: 'hud', id: 'use-cases' },
+          h('div', { class: 'corners' }),
+          h('div', { class: 'label' }, 'USE CASES'),
+          h('div', { class: 'feature-grid' },
+            h('div', { class: 'feature-card' },
+              h('h3', null, 'Multiplayer Games'),
+              h('p', null, 'Authoritative server (tx2-core), client prediction, admin dashboard (tx2-ecs), and analytics (tx2-query).')
+            ),
+            h('div', { class: 'feature-card' },
+              h('h3', null, 'Agent IDEs'),
+              h('p', null, 'Agent execution environment, code editor UI, time-travel debugging, and session persistence.')
+            ),
+            h('div', { class: 'feature-card' },
+              h('h3', null, 'Collaborative Apps'),
+              h('p', null, 'Real-time sync, offline support, conflict resolution, and version history with undo/redo.')
+            ),
+            h('div', { class: 'feature-card' },
+              h('h3', null, 'Simulations'),
+              h('p', null, 'High-performance simulation, 3D/Web visualization, replay, and data export.')
             )
           )
         ) : null,
