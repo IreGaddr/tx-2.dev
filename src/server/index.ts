@@ -147,6 +147,7 @@ function createWorld(currentPath: string): World {
                 h('div', { class: 'tagline' }, 'One world, many views.'),
                 h('h1', null, 'BUILD ONCE, RUN EVERYWHERE.'),
                 h('p', null, 'TX-2 is a complete ecosystem for building applications where the same Entity-Component-System world runs everywhere - web, native, CLI - with automatic synchronization, persistence, and time-travel debugging.'),
+                h('p', { style: 'margin-top: 1rem; font-size: 0.9em; opacity: 0.8;' }, 'In 1963, Ivan Sutherland drew on a phosphor display with the TX-2 light pen and built the first interactive ECS. TX-2 brings that architecture to the modern web: isomorphic logic, zero bloat, precise control.'),
                 h('div', { class: 'cta-row' },
                   h('a', { href: '#stack', class: 'btn primary' }, 'Explore the Stack'),
                   h('a', { href: 'https://github.com/IreGaddr/tx2-ecs', class: 'btn ghost' }, 'View Source')
